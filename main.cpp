@@ -1,26 +1,25 @@
-#include "QuasiPGG.h"
+#include "Tax_PGG.h"
 #include <unistd.h>
 using namespace std;
 
 
 int main(int argc, char** argv){
 	srand(time(NULL));
-	double alpha = 0.1;
-	double rho = 0.5; //FIX
-	double b = 1.2;
-	double lambd = 0.7;
-	double delt = 0.1; //FIX
-	double m = 0.2;
+	double r=1;
+	double beta=1;
+	double T=1;
+	double Gp=1;
 
 	
-	printf("Now doing QuasiPGG with (a,b,l,d) = (%f,%f,%f,%f)\n",
-		alpha,b,lambd,delt);
+	printf("Now doing Tax_PGG with (c,r,beta,T,Gp) = (%f,%f,%f,%f,%f)\n",
+		c,r,beta,T,Gp);
 
 	for(double b = 1; b < 2.01; b += 0.05 ){
 		char file_n[100];
-		sprintf(file_n,"b_%04d_A_%4d_m_%04d_L_%4d.dat", 
-			(int)((b + 0.000001) * 100), (int)((alpha + 0.000001) * 100),
-			(int)((m + 0.000001) * 100), (int)((lambd + 0.000001) * 100));
+		sprintf(file_n,"r_%04d_b_%04d_T_%04d_G_%04d.dat", 
+		(int)((r + 0.000001) * 100),
+		(int)((beta + 0.000001) * 100), (int)((T + 0.000001) * 100),
+		(int)((Gp + 0.000001) * 100));
 
 		FILE *file;
   		file = fopen(file_n, "r");
@@ -35,8 +34,8 @@ int main(int argc, char** argv){
 		file = fopen(file_n, "w");
 		fclose(file);
 
-		QuasiPGG gameOBJ(alpha,rho,b,lambd,delt,m);
-		gameOBJ.game(true);
+		Tax_PGG gameOBJ(r,beta,T,Gp);
+		gameOBJ.game(false);
 
 	}
 

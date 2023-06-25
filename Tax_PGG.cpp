@@ -1,22 +1,22 @@
-#include "QuasiPGG.h"
+#include "Tax_PGG.h"
 using namespace std;
 
-QuasiPGG::QuasiPGG(const double A,const double R, const double B,
-	const double Lam, const double D, const double M,bool Two, bool Grid){
+Tax_PGG::Tax_PGG(const double R, const double B,
+	const double tax, const double gp, bool Two , bool Grid ){
 
-	alpha = A;
-	b = B;
-	rho = R;
-	lambd = Lam;
-	delt = D;
-	m = M;
+	// c, r, beta, T, Gp
+	c = 1;
+	r = R;
+	beta = B;
+	T = tax;
+	Gp = gp;
+
 	grid = Grid;
 
 	Strategy = new int[LL];
 
-	// 0 for D, 1 for C, 2 for QC
-	//Strategy initialise, with D,C,QC = (0.5,0.25,0.25)
-	for(int i = 0; i < 3; i++)
+	// 0 for D, 1 for C, 2 for PD, 3 for PC
+	for(int i = 0; i < 4; i++)
 		Cate_Player[i] = 0;
 
 	if(Two){
@@ -29,8 +29,6 @@ QuasiPGG::QuasiPGG(const double A,const double R, const double B,
 	else{
 		for(int i = 0; i < LL; i++){
 			Strategy[i] = rand() % 4;
-			if(Strategy[i] == 3)
-				Strategy[i] = 0;
 
 			Cate_Player[Strategy[i]] ++;
 		}
@@ -52,7 +50,7 @@ QuasiPGG::QuasiPGG(const double A,const double R, const double B,
 
 }
 
-QuasiPGG::~QuasiPGG(){
+Tax_PGG::~Tax_PGG(){
 	delete Strategy;
 	for(int i = 0; i < LL; i++){
 		delete [] Neighbour[i];
@@ -61,34 +59,58 @@ QuasiPGG::~QuasiPGG(){
 }
 
 
-double QuasiPGG::centre_game(const int cent){
-	double profit = 0;
-	double pay_table[3][3] = 
-	{{0, b, b-lambd}, {-delt,1,1-alpha}, {m - delt, 1+alpha, rho} };
+double Tax_PGG::one_game(const int cent,const int target){
+	// N0 for D, N1 for C, N2 for PD, N3 for PC
+	double Nl[4] = {0.0, 0.0, 0.0,0.0};
+	// c, r, beta, T, Gp
+
 	for(int i = 0; i < 4; i++){
-		profit += pay_table[ Strategy[cent]][Strategy[ Neighbour[cent][i] ]] ;
+		Nl[Strategy[Neighbour[cent][i]]] += 1;
 	}
 
+	if (Strategy[target] == 0){ // D
+		return ( r * c * (Nl[3] + Nl[1])/5 - beta * (Nl[3] + Nl[2]) -T);
+	}
+	if (Strategy[target] == 1){ // C
+		return ( r * c * (Nl[3] + Nl[1] + 1)/5 - c -T);
+	}
+	if (Strategy[target] == 2){ // PD
+		return ( r * c * (Nl[3] + Nl[1])/5 + (5 * T)/(Nl[3] + Nl[2] + 1) - Gp -T - beta * (Nl[3] + Nl[2]) );
+	}	
+
+	if (Strategy[target] == 3){ // PC
+		return ( r * c * (Nl[3] + Nl[1] + 1)/5 - c + (5 * T)/(Nl[3] + Nl[2] + 1) - Gp -T);
+	}
+
+	return 0;
+}
+
+double Tax_PGG::centre_game(const int cent){
+	double profit = one_game(cent,cent);
+	for(int i = 0; i <4; i++){
+		profit += one_game(cent,Neighbour[cent][i]);
+	}
 	return profit;
 }
 
-int QuasiPGG::game(bool ptf){
+
+int Tax_PGG::game(bool ptf){
 
 	FILE *file;
 	if(ptf){
 		char path[100];
 		
-		sprintf(path,"A_%04d_b_%04d_l_%04d_m_%04d_d_%04d_r_%04d.dat", 
-		(int)((alpha + 0.000001) * 100), (int)((b + 0.000001) * 100),
-		(int)((lambd + 0.000001) * 100), (int)((m + 0.000001) * 100),
-		(int)((delt + 0.000001) * 100), (int)((rho + 0.000001) * 100));
+		sprintf(path,"r_%04d_b_%04d_T_%04d_G_%04d.dat", 
+		(int)((r + 0.000001) * 100),
+		(int)((beta + 0.000001) * 100), (int)((T + 0.000001) * 100),
+		(int)((Gp + 0.000001) * 100));
 
 		printf("Now file:%s\n",path);
 		file = fopen(path,"a+");
 	}
 
-	double rate[3] = {0.0, 0.0, 0.0};
-	double previous[5][3];
+	double rate[4] = {0.0, 0.0, 0.0,0.0};
+	double previous[5][4];
 	int iter = 1001;
 	int gap = 10;
 	bool stop_all_0 = true;
@@ -98,12 +120,12 @@ int QuasiPGG::game(bool ptf){
 
  
 		if(i % gap == 0){
-			for (int j = 0; j < 3; ++j)
+			for (int j = 0; j < 4; ++j)
 				rate[j] = (double) Cate_Player[j] / LL;
 
 			if(ptf)
-				fprintf(file, "%06d %.4f %.4f %.4f\n", i, rate[0],rate[1],rate[2]);
-			printf( "%06d %.4f %.4f %.4f\n", i, rate[0],rate[1],rate[2]);
+				fprintf(file, "%06d %.4f %.4f %.4f %.4f\n", i, rate[0],rate[1],rate[2],rate[3]);
+			printf( "%06d %.4f %.4f %.4f %.4f\n", i, rate[0],rate[1],rate[2],rate[3]);
 
 			double pert = 0.02;
 			for(int j = 1; j < 5; j++)
@@ -116,7 +138,7 @@ int QuasiPGG::game(bool ptf){
 				stop_all_0 = true;
 
 				for(int j = 0; j < 5; j++)
-					for(int k = 0; k < 3; k ++)
+					for(int k = 0; k < 4; k ++)
 						if(abs(rate[k] - previous[j][k]) > pert){
 							stop_all_0 = false;
 						}
@@ -126,7 +148,7 @@ int QuasiPGG::game(bool ptf){
 			}
 		}
 
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < 4; j++)
 			if(rate[j] - 0.00000001 >= 0 && rate[j] + 0.00000001 <= 1)
 				stop_all = false;
 
@@ -135,16 +157,16 @@ int QuasiPGG::game(bool ptf){
 
 		if(grid && i % gap == 0){
 			char path2[100];
-			sprintf(path2,"A_%04d_b_%04d_l_%04d_m_%04d_d_%04d_r_%04d_i_%05d.dat", 
-					(int)((alpha + 0.000001) * 100), (int)((b + 0.000001) * 100),
-					(int)((lambd + 0.000001) * 100), (int)((m + 0.000001) * 100),
-					(int)((delt + 0.000001) * 100), (int)((rho + 0.000001) * 100),
+			sprintf(path2,"r_%04d_b_%04d_T_%04d_G_%04d_i_%05d.dat", 
+					(int)((r + 0.000001) * 100),
+					(int)((beta + 0.000001) * 100), (int)((T + 0.000001) * 100),
+					(int)((Gp + 0.000001) * 100),
 					i);
+
 			FILE *gfile = fopen(path2,"a+");	
-			for(int j = 0; j < LL;j++){
+			for(int j = 0; j < LL;j++)
 				fprintf(gfile, "%d", Strategy[j]);
 
-			}
 		}
 
 		for(int j = 0; j < LL; j++){
