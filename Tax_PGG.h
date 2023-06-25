@@ -30,7 +30,7 @@ public:
 	int *Strategy;
 	int **Neighbour;
 
-	Tax_PGG(const double C,const double R, const double B,
+	Tax_PGG(const double R, const double B,
 	const double tax, const double gp, bool Two = false, bool Grid = false);
 	~Tax_PGG();
 	//double unit_game(const int cent,const int target);
