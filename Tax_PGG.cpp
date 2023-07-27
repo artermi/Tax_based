@@ -64,6 +64,8 @@ double Tax_PGG::one_game(const int cent,const int target){
 	double Nl[4] = {0.0, 0.0, 0.0,0.0};
 	// c, r, beta, T, Gp
 
+	Nl[Strategy[cent]] += 1;
+
 	for(int i = 0; i < 4; i++){
 		Nl[Strategy[Neighbour[cent][i]]] += 1;
 	}
@@ -72,14 +74,14 @@ double Tax_PGG::one_game(const int cent,const int target){
 		return ( r * c * (Nl[3] + Nl[1])/5 - beta * (Nl[3] + Nl[2]) -T);
 	}
 	if (Strategy[target] == 1){ // C
-		return ( r * c * (Nl[3] + Nl[1] + 1)/5 - c -T);
+		return ( r * c * (Nl[3] + Nl[1])/5 - c -T);
 	}
 	if (Strategy[target] == 2){ // PD
-		return ( r * c * (Nl[3] + Nl[1])/5 + (5 * T)/(Nl[3] + Nl[2] + 1) - Gp -T - beta * (Nl[3] + Nl[2]) );
+		return ( r * c * (Nl[3] + Nl[1])/5 + (5 * T)/(Nl[3] + Nl[2]) - Gp -T - beta * (Nl[3] + Nl[2]) );
 	}	
 
 	if (Strategy[target] == 3){ // PC
-		return ( r * c * (Nl[3] + Nl[1] + 1)/5 - c + (5 * T)/(Nl[3] + Nl[2] + 1) - Gp -T);
+		return ( r * c * (Nl[3] + Nl[1])/5 - c + (5 * T)/(Nl[3] + Nl[2]) - Gp -T);
 	}
 
 	return 0;
@@ -111,8 +113,8 @@ int Tax_PGG::game(bool ptf){
 
 	double rate[4] = {0.0, 0.0, 0.0,0.0};
 	double previous[5][4];
-	int iter = 1001;
-	int gap = 10;
+	int iter = 20001;
+	int gap = 100;
 	bool stop_all_0 = true;
 
 	for(int i = 0; i < iter; i++){

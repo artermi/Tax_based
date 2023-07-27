@@ -25,7 +25,7 @@ int do_once(double r, double beta, double T, double Gp){
 	fclose(file);
 
 	Tax_PGG gameOBJ(r,beta,T,Gp);
-	gameOBJ.game(false);
+	gameOBJ.game(true);
 
 	return 0;
 }
