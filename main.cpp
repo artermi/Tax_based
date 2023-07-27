@@ -35,10 +35,10 @@ int main(int argc, char** argv){
 	srand(time(NULL));
 
 
-	for(double r = 3; r < 5.01; r += 0.02 ){
-		for(double beta = 0; beta < 1; beta += 0.02){
-			for (double T = 0; T < 1; T += 0.02){
-				for(double Gp = 0; Gp < 1; Gp += 0.02){
+	for(double r = 3; r < 5.01; r += 0.2 ){
+		for(double beta = 0; beta < 1.01; beta += 0.1){
+			for (double T = 0; T < 1.01; T += 0.1){
+				for(double Gp = 0; Gp < 1.01; Gp += 0.1){
 					do_once(r,beta,T,Gp);
 				}
 			}
