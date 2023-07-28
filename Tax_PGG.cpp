@@ -64,24 +64,24 @@ double Tax_PGG::one_game(const int cent,const int target){
 	double Nl[4] = {0.0, 0.0, 0.0,0.0};
 	// c, r, beta, T, Gp
 
-	Nl[Strategy[cent]] += 1;
+	Nl[Strategy[cent]] += 1.0;
 
 	for(int i = 0; i < 4; i++){
-		Nl[Strategy[Neighbour[cent][i]]] += 1;
+		Nl[Strategy[Neighbour[cent][i]]] += 1.0;
 	}
 
 	if (Strategy[target] == 0){ // D
-		return ( r * c * (Nl[3] + Nl[1])/5 - beta * (Nl[3] + Nl[2]) -T);
+		return ( r * (Nl[3] + Nl[1])/5 - beta * (Nl[3] + Nl[2]) -T);
 	}
 	if (Strategy[target] == 1){ // C
-		return ( r * c * (Nl[3] + Nl[1])/5 - c -T);
+		return ( r  * (Nl[3] + Nl[1])/5 - 1 -T);
 	}
 	if (Strategy[target] == 2){ // PD
-		return ( r * c * (Nl[3] + Nl[1])/5 + (5 * T)/(Nl[3] + Nl[2]) - Gp -T - beta * (Nl[3] + Nl[2]) );
+		return ( r * (Nl[3] + Nl[1])/5 + (5 * T)/(Nl[3] + Nl[2]) - Gp -T - beta * (Nl[3] + Nl[2]) );
 	}	
 
 	if (Strategy[target] == 3){ // PC
-		return ( r * c * (Nl[3] + Nl[1])/5 - c + (5 * T)/(Nl[3] + Nl[2]) - Gp -T);
+		return ( r * (Nl[3] + Nl[1])/5 - 1 + (5 * T)/(Nl[3] + Nl[2]) - Gp -T);
 	}
 
 	return 0;
@@ -90,7 +90,7 @@ double Tax_PGG::one_game(const int cent,const int target){
 double Tax_PGG::centre_game(const int cent){
 	double profit = one_game(cent,cent);
 	for(int i = 0; i <4; i++){
-		profit += one_game(cent,Neighbour[cent][i]);
+		profit += one_game(Neighbour[cent][i],cent);
 	}
 	return profit;
 }
