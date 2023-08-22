@@ -131,9 +131,9 @@ int Tax_PGG::game(bool ptf){
 
 			double pert = 0.02;
 			for(int j = 1; j < 5; j++)
-				for(int k = 0; k < 3; k ++)
+				for(int k = 0; k < 4; k ++)
 					previous[j-1][k] = previous[j][k];
-			for(int k = 0; k < 3; k++)
+			for(int k = 0; k < 4; k++)
 				previous[4][k] = rate[k];
 
 			if(i > iter/2){
