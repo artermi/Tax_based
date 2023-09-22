@@ -23,6 +23,7 @@ public:
 	double Gp;
 
 	bool grid;
+	bool fineB;
 	char dir_name[100];
 
 	int Cate_Player[4];
@@ -31,7 +32,7 @@ public:
 	int **Neighbour;
 
 	Tax_PGG(const double R, const double B,
-	const double tax, const double gp, bool Two = false, bool Grid = false);
+	const double tax, const double gp, bool Two = false, bool Grid = false, bool finerB = false);
 	~Tax_PGG();
 	//double unit_game(const int cent,const int target);
 	double one_game(const int cent,const int target);

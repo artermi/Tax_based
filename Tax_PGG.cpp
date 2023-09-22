@@ -2,7 +2,7 @@
 using namespace std;
 
 Tax_PGG::Tax_PGG(const double R, const double B,
-	const double tax, const double gp, bool Two , bool Grid ){
+	const double tax, const double gp, bool Two , bool Grid ,bool finerB){
 
 	// c, r, beta, T, Gp
 	c = 1;
@@ -10,6 +10,7 @@ Tax_PGG::Tax_PGG(const double R, const double B,
 	beta = B;
 	T = tax;
 	Gp = gp;
+	fineB = finerB;
 
 	grid = Grid;
 
@@ -102,10 +103,17 @@ int Tax_PGG::game(bool ptf){
 	if(ptf){
 		char path[100];
 		
-		sprintf(path,"r_%04d_b_%04d_T_%04d_G_%04d.dat", 
-		(int)((r + 0.000001) * 100),
-		(int)((beta + 0.000001) * 100), (int)((T + 0.000001) * 100),
-		(int)((Gp + 0.000001) * 100));
+		if(fineB == false)
+			sprintf(path,"r_%04d_b_%04d_T_%04d_G_%04d.dat", 
+			(int)((r + 0.000001) * 100),
+			(int)((beta + 0.000001) * 100), (int)((T + 0.000001) * 100),
+			(int)((Gp + 0.000001) * 100));
+		else
+			sprintf(path,"r_%04d_b_%04d_T_%04d_G_%04d.dat", 
+			(int)((r + 0.000001) * 100),
+			(int)((beta + 0.000001) * 1000), (int)((T + 0.000001) * 100),
+			(int)((Gp + 0.000001) * 100));
+
 
 		printf("Now file:%s\n",path);
 		file = fopen(path,"a+");

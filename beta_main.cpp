@@ -8,7 +8,7 @@ int do_once(double r, double beta, double T, double Gp){
 	char file_n[100];
 	sprintf(file_n,"r_%04d_b_%04d_T_%04d_G_%04d.dat", 
 		(int)((r + 0.000001) * 100),
-		(int)((beta + 0.000001) * 100), (int)((T + 0.000001) * 100),
+		(int)((beta + 0.000001) * 1000), (int)((T + 0.000001) * 100),
 		(int)((Gp + 0.000001) * 100));
 
 	FILE *file;
@@ -24,7 +24,7 @@ int do_once(double r, double beta, double T, double Gp){
 	file = fopen(file_n, "w");
 	fclose(file);
 
-	Tax_PGG gameOBJ(r,beta,T,Gp);
+	Tax_PGG gameOBJ(r,beta,T,Gp,false,false,true);
 	gameOBJ.game(true);
 
 	return 0;
@@ -34,12 +34,12 @@ int do_once(double r, double beta, double T, double Gp){
 int main(int argc, char** argv){
 	srand(time(NULL));
 
-	double T = 0.2;
-	double r = 3.2;
+	double T = 0.3;
+	double r = 3.6;
 	double Gp = 1;
 
 
-	for(double beta = 0.5; beta < 0.705; beta += 0.01){
+	for(double beta = 0; beta < 1.001; beta += 0.005){
 					do_once(r,beta,T,Gp);
 				
 	}
