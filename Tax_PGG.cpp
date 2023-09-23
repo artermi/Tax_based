@@ -27,13 +27,13 @@ Tax_PGG::Tax_PGG(const double R, const double B,
 			Cate_Player[Strategy[i]] ++;
 		}		
 	}
-	else if (fourdim){
+	else if (fourdim){		
 		for(int i = 0; i < LL; i++){
-			if (i / L < LL/2){
-				Strategy[i] = (i % L < L/2) ? 0:1; 
+			if (i / L < L/2){
+				Strategy[i] = (i % L < L/2) ? 1:0; 
 			}
 			else{
-				Strategy[i] = (i % L < L/2) ? 2:3;
+				Strategy[i] = (i % L < L/2) ? 3:2;
 			}
 			Cate_Player[Strategy[i]] ++;
 		}
