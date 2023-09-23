@@ -2,7 +2,7 @@
 using namespace std;
 
 Tax_PGG::Tax_PGG(const double R, const double B,
-	const double tax, const double gp, bool Two , bool Grid ,bool finerB){
+	const double tax, const double gp, bool Two , bool Grid ,bool finerB, bool fourdim){
 
 	// c, r, beta, T, Gp
 	c = 1;
@@ -26,6 +26,17 @@ Tax_PGG::Tax_PGG(const double R, const double B,
 
 			Cate_Player[Strategy[i]] ++;
 		}		
+	}
+	else if (fourdim){
+		for(int i = 0; i < LL; i++){
+			if (i / L < LL/2){
+				Strategy[i] = (i % L < L/2) ? 0:1; 
+			}
+			else{
+				Strategy[i] = (i % L < L/2) ? 2:3;
+			}
+			Cate_Player[Strategy[i]] ++;
+		}
 	}
 	else{
 		for(int i = 0; i < LL; i++){
