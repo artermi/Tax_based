@@ -25,7 +25,8 @@ for root,dirs,files in sorted(os.walk(d_name,topdown = False)):
 		if name.find('.dat') >= 0:
 			# r_0300_b_0036_T_0040_G_0080.dat
 			# 0123456789|123456789|1234567
-			bb = float(name[9:13])/100
+			bb = float(name[9:13])/1000
+
 			Final_D = []
 			Final_C = []
 			FinalPD = []

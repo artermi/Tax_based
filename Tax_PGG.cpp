@@ -132,7 +132,7 @@ int Tax_PGG::game(bool ptf){
 
 	double rate[4] = {0.0, 0.0, 0.0,0.0};
 	double previous[5][4];
-	int iter = 20001;
+	int iter = 30001;
 	int gap = 20;
 	bool stop_all_0 = true;
 
@@ -184,9 +184,12 @@ int Tax_PGG::game(bool ptf){
 					(int)((Gp + 0.000001) * 100),
 					i);
 
-			FILE *gfile = fopen(path2,"a+");	
-			for(int j = 0; j < LL;j++)
+			FILE *gfile = fopen(path2,"a+");
+
+			for(int j = 0; j < LL; j++){
 				fprintf(gfile, "%d", Strategy[j]);
+			}
+			fclose(gfile);
 
 		}
 

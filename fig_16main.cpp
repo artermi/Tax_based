@@ -24,7 +24,7 @@ int do_once(double r, double beta, double T, double Gp){
 	file = fopen(file_n, "w");
 	fclose(file);
 
-	Tax_PGG gameOBJ(r,beta,T,Gp,false,false,false,true);
+	Tax_PGG gameOBJ(r,beta,T,Gp,false,true,false,true);
 	gameOBJ.game(true);
 
 	return 0;
@@ -38,7 +38,7 @@ int main(int argc, char** argv){
 	double beta = 0.9;
 	double Gp = 1;
 
-	bool only = false;
+	bool only = true;
 
 	if(only)
 		do_once(3,beta,T,Gp);
