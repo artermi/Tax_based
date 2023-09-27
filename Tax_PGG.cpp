@@ -132,8 +132,8 @@ int Tax_PGG::game(bool ptf){
 
 	double rate[4] = {0.0, 0.0, 0.0,0.0};
 	double previous[5][4];
-	int iter = 30001;
-	int gap = 20;
+	int iter = 80001;
+	int gap = 50;
 	bool stop_all_0 = true;
 
 	for(int i = 0; i < iter; i++){
