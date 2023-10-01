@@ -32,7 +32,8 @@ public:
 	int **Neighbour;
 
 	Tax_PGG(const double R, const double B,
-	const double tax, const double gp, bool Two = false, bool Grid = false, bool finerB = false, bool fourdim = false);
+	const double tax, const double gp, bool Two = false, bool Grid = false, bool finerB = false, 
+	bool fourdim = false, bool threedim = false);
 	~Tax_PGG();
 	//double unit_game(const int cent,const int target);
 	double one_game(const int cent,const int target);

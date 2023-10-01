@@ -2,7 +2,8 @@
 using namespace std;
 
 Tax_PGG::Tax_PGG(const double R, const double B,
-	const double tax, const double gp, bool Two , bool Grid ,bool finerB, bool fourdim){
+	const double tax, const double gp, bool Two , bool Grid ,bool finerB, bool fourdim
+	,bool threedim){
 
 	// c, r, beta, T, Gp
 	c = 1;
@@ -34,6 +35,26 @@ Tax_PGG::Tax_PGG(const double R, const double B,
 			}
 			else{
 				Strategy[i] = (i % L < L/2) ? 3:2;
+			}
+			Cate_Player[Strategy[i]] ++;
+		}
+	}
+	else if (threedim){
+		for (int i = 0; i < LL; ++i){
+			if (i / L < int (L * (2.0/3.0 - 1.0/(4.0 * sqrt(3) )) ) ){
+				Strategy[i] = (i % L < L/2) ? 1: 3;
+			}
+			else if (i / L < int ( L * (2.0/3.0 + 1.0/(4.0 * sqrt(3))))){
+				double horiz = L * (2.0/3.0 + 1.0/(4.0 * sqrt(3)));
+				int row_leng =  int ( ( horiz - (double (i)) / L) * sqrt(3) );
+				//printf("%d %d\n", int(horiz), row_leng);
+				if(i % L <  row_leng )
+					Strategy[i] = 1;
+				else
+					Strategy[i] = (i % L > L - row_leng) ? 3: 0;
+			}
+			else{
+				Strategy[i] = 0;
 			}
 			Cate_Player[Strategy[i]] ++;
 		}
@@ -132,8 +153,8 @@ int Tax_PGG::game(bool ptf){
 
 	double rate[4] = {0.0, 0.0, 0.0,0.0};
 	double previous[5][4];
-	int iter = 80001;
-	int gap = 50;
+	int iter = 401;
+	int gap = 10;
 	bool stop_all_0 = true;
 
 	for(int i = 0; i < iter; i++){
