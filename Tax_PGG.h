@@ -11,7 +11,7 @@
 
 
 #define K 1.2
-#define L 1000
+#define L 800
 #define LL (L*L)
 
 class Tax_PGG{
