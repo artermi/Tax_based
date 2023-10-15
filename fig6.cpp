@@ -36,7 +36,7 @@ int main(int argc, char** argv){
 
 	double beta = 0.1;
 	double T = 0.4;
-	double Gp = 0.8
+	double Gp = 0.8;
 
 
 	for(double r = 3; r < 5.01; r += 0.1 ){
