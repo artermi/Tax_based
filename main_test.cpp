@@ -110,6 +110,7 @@ bool different_neighbour(double r, double beta,double T,double Gp){
 	if(ind_o == ind_n && ind_o == ind_s && ind_o == ind_e && ind_o == ind_w)
 		return false;
 
+	unlink(file_n);
 	return true;
 
 
