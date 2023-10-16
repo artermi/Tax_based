@@ -78,6 +78,7 @@ bool different_neighbour(double r, double beta,double T,double Gp){
 		(int)((r + 0.000001) * 100),
 		(int)((beta + 0.000001) * 100), (int)((T + 0.000001) * 100),
 		(int)((Gp + 0.000001) * 100));
+	printf("%s\n",file_n);
 
 	int ind_o = parse_last(file_n);
 
