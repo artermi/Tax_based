@@ -123,7 +123,7 @@ int main(int argc, char** argv){
 		for(double beta = 0.1; beta < .91; beta += 0.1){
 			for (double T = 0; T < 1.01; T += 0.1){
 				for(double Gp = 0; Gp < 1.01; Gp += 0.1){
-					different_neighbour(r,beta,T,GP)
+					different_neighbour(r,beta,T,Gp);
 				}
 			}
 
