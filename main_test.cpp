@@ -120,7 +120,7 @@ int main(int argc, char** argv){
 	srand(time(NULL));
 
 
-	for(double r = 3.02; r < 4.81; r += 0.2 ){
+	for(double r = 3.2; r < 4.81; r += 0.2 ){
 		for(double beta = 0.1; beta < .91; beta += 0.1){
 			for (double T = 0; T < 1.01; T += 0.1){
 				for(double Gp = 0; Gp < 1.01; Gp += 0.1){
