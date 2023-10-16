@@ -34,6 +34,9 @@ int parse_last(char* filename){
 
 	FILE *file;
   	file = fopen(filename, "r");
+  	if(!file){
+  		return -1;
+  	}
 
   	int bufferlength = 255;
   	char buffer[bufferlength];
@@ -107,7 +110,14 @@ bool different_neighbour(double r, double beta,double T,double Gp){
 	int ind_w = parse_last(w_file);
 
 
-	if(ind_o == ind_n && ind_o == ind_s && ind_o == ind_e && ind_o == ind_w)
+	if( ind_o == -1 ||
+		((ind_o == ind_n || ind_n == -1 ) && 
+		(ind_o == ind_s || ind_s == -1 ) && 
+		(ind_o == ind_e || ind_e == -1 ) && 
+		(ind_o == ind_w || ind_w == -1)
+		) 
+	)
+
 		return false;
 
 	unlink(file_n);
