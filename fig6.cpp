@@ -39,7 +39,7 @@ int main(int argc, char** argv){
 	double Gp = 0.8;
 
 
-	for(double r = 3; r < 5.01; r += 0.1 ){
+	for(double r = 3; r < 5.01; r += 0.02 ){
 		do_once(r,beta,T,Gp);
 
 	}
