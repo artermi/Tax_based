@@ -11,9 +11,9 @@
 
 
 #define K 1.2
-#define L 700
+#define L 1000
 #define LL (L*L)
-#define ITER 16001
+#define ITER 30001
 #define GAP 10
 
 class Tax_PGG{

@@ -47,15 +47,15 @@ box = ax.get_position()
 ax.set_position([box.x0, box.y0 + box.height * 0.2,
                  box.width, box.height * 0.8])
 #ax.plot(itr, L, color='#cb4335', marker= '.', label = 'Fixed defector')
-ax.plot(t, D, color='red', marker= '.',label = 'defector',markersize=2)
-ax.plot(t, C, color='blue', marker= '.',label = 'cooperator',markersize=2)
-ax.plot(t, PD, color='grey', marker= '.',label = 'Punisher-Defector',markersize=2)
-ax.plot(t, PC, color='yellow', marker= '.',label = 'Punisher-cooperator',markersize=2)
+ax.plot(t, D, color='red', marker= '.',label = 'D',markersize=2)
+ax.plot(t, C, color='blue', marker= '.',label = 'C',markersize=2)
+ax.plot(t, PD, color='grey', marker= '.',label = 'PD',markersize=2)
+ax.plot(t, PC, color=(250/255,218/255,94/255), marker= '.',label = 'PC',markersize=2)
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.2), fancybox=True, shadow=True, ncol=2)
 
 plt.ylim([-0.1,1.1])
 plt.xlabel('Iteration')
-plt.ylabel('Fraction')
+plt.ylabel('Fractions')
 plt.grid(False)
 
 import tikzplotlib
