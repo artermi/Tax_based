@@ -34,7 +34,7 @@ int do_once(double r, double beta, double T, double Gp){
 int main(int argc, char** argv){
 	srand(time(NULL));
 
-	double T = 0.3;
+	double T = 0.2;
 	double Gp = 1;
 
 	for(double r = 3; r < 5.01; r += 0.2 ){
